@@ -6,6 +6,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'vue-d3-network/dist/vue-d3-network.css'
+import store from './store'
 
 Vue.use(Vuetify, { theme: {
   primary: '#ee44aa',
@@ -20,9 +21,10 @@ Vue.use(Vuetify, { theme: {
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+window.vueInstance = new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
