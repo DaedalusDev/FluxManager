@@ -23,7 +23,7 @@
                   :stroke="node.hover ? 'red' : 'white'" stroke-width="1"
                   @mousedown="currentMove = {x: $event.screenX, y: $event.screenY, node: node}"
                   @mouseenter="node.hover=true"
-                  @mouseleave="node.hover=false""/>
+                  @mouseleave="node.hover=false"/>
         </svg>
       </v-layout>
     </v-slide-x-transition>
