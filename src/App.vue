@@ -2,14 +2,14 @@
   <v-app>
     <v-navigation-drawer
         :mini-variant="miniVariant"
-        v-model="drawer"
+        v-model="isOpen"
         fixed
         app
     >
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
-            <v-btn icon @click.stop="miniVariant = !miniVariant">
+            <v-btn icon @click.stop="toggleSize">
               <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
             </v-btn>
             <v-list-tile-content>
@@ -33,22 +33,24 @@
     <v-toolbar
         app
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-side-icon @click.stop="toggleMenu"></v-toolbar-side-icon>
+      <v-toolbar-title>FluxManager - {{$route.name}}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <transition name="slide" mode="out-in">
-        <router-view/>
-      </transition>
+      <v-slide-x-transition mode="out-in">
+        <router-view :key="$route.path"/>
+      </v-slide-x-transition>
     </v-content>
-    <v-footer app>
-      <span>&copy; 2017</span>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
+import * as types from './store/ui/mutation-types'
+import {createNamespacedHelpers} from 'vuex'
+
+const {mapState, mapMutations} = createNamespacedHelpers('ui')
+
 export default {
   created () {
     this.$router.options.routes.forEach(route => {
@@ -57,10 +59,30 @@ export default {
   },
   data () {
     return {
-      drawer: true,
-      items: [],
-      miniVariant: true,
-      title: 'FluxManager'
+      items: []
+    }
+  },
+  methods: {
+    ...mapMutations({
+      toggleMenu: types.UI_MENU_TOGGLE,
+      toggleSize: types.UI_MENU_TOGGLE_SIZE
+    })
+  },
+  computed: {
+    ...mapState([
+      'miniVariant'
+    ]),
+    isOpen: {
+      get () {
+        return this.$store.state.ui.isOpen
+      },
+      set (value) {
+        if (value) {
+          this.$store.commit('ui/menuOpen', value)
+        } else {
+          this.$store.commit('ui/menuClose', value)
+        }
+      }
     }
   },
   name: 'App'

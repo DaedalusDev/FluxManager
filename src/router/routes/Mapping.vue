@@ -1,154 +1,73 @@
 <template>
     <v-container fluid>
-        <v-slide-x-transition>
-            <v-layout column align-center>
-                <keep-alive>
-                <d3-network
-                        :net-nodes="nodes"
-                        :net-links="links"
-                        :options="options"
-                        :selection="{nodes: selected, links: linksSelected}"
-                        @node-click="nodeClick"
-                        @link-click="linkClick"/>
-                </keep-alive>
-            </v-layout>
-        </v-slide-x-transition>
+        <v-layout wrap>
+            <keep-alive>
+                <mapping-network
+                    v-model="selection"
+                    :tool="currentTool.value"
+                    :nodes="nodes"
+                    :links="links"
+                    ref="mappingNetwork"/>
+            </keep-alive>
+            <mapping-tools v-model="currentTool"/>
+            <v-slide-x-reverse-transition mode="in-out">
+                <v-container grid-list-md v-show="showSelection" class="selection card">
+                    <v-layout row wrap>
+                        <h3 class="headline mb-0">Sélection</h3>
+                        <v-flex xs12 v-for="node in selection.nodes" :key="node.id">
+                            <v-card>
+                                <v-card-title primary-title>
+                                    <h4 class="headline">{{node.name}}</h4>
+                                    <div>
+                                        <div v-for="link in groupedLinks[node.id]">
+                                            <span>Lien(s) avec {{ indexedNodes[(link.source === node.id ? link.target : link.source)]['nom'] }}</span>
+                                            <span v-for="linkType in link.linksType"><br />- {{linkType}}</span>
+                                        </div>
+                                    </div>
+                                </v-card-title>
+                                <v-card-actions>
+                                    <v-btn icon @click="lock(node)">
+                                        <v-icon>{{ node.pinned ? 'lock_open' : 'lock_outline' }}</v-icon>
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-slide-x-reverse-transition>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
-  import D3Network from 'vue-d3-network'
+  import MappingTools from '../../components/Mapping/MappingTools'
+  import MappingNetwork from '../../components/Mapping/MappingNetwork'
   import {createNamespacedHelpers} from 'vuex'
-  import Vue from 'vue'
 
   const storeManager = createNamespacedHelpers('manager')
 
   export default {
     components: {
-      D3Network
+      MappingNetwork,
+      MappingTools
     },
     data () {
-      const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-      const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 40
       return {
-        options: {
-          size: {
-            w,
-            h
-          },
-          force: 10000,
-          nodeSize: 25,
-          linkWidth: 5,
-          nodeLabels: true,
-          linkLabels: true,
-          strLinks: true
-        },
-        selected: {},
-        linksSelected: {}
+        currentTool: {},
+        selection: {},
+        selectionLength: 0,
+        showSelection: false
       }
     },
     methods: {
-      selection () {
-        return {
-          nodes: this.selected,
-          links: this.linksSelected
-        }
-      },
-      buttonClass (tool) {
-        if (tool === this.tool) return 'selected'
-      },
-      setTool (tool) {
-        this.tool = tool
-        let cursorClass = (tool === 'pointer') ? '' : 'cross-cursor'
-        this.$el.className = cursorClass
-      },
-      updateSelection () {
-        this.showSelection = (Object.keys(this.selected).length | Object.keys(this.linksSelected).length)
-      },
-      changeOptions (options) {
-        this.options = Object.assign({}, options)
-      },
-      removeLink (link) {
-        this.unSelectLink(link.id)
-        this.links.splice(link.index, 1)
-      },
-      pinNode (node) {
-        if (!node.pinned) {
-          node.pinned = true
-          node.fx = node.x
-          node.fy = node.y
-        } else {
-          node.pinned = false
-          node.fx = null
-          node.fy = null
-        }
-        this.nodes[node.index] = node
-      },
-      // -- Selection
-      selectNode (node) {
-        this.selected[node.id] = node
-      },
-      selectNodesLinks () {
-        for (let link of this.links) {
-          // node is selected
-          if (this.selected[link.sid] || this.selected[link.tid]) {
-            this.selectLink(link)
-            // node is not selected
-          } else {
-            this.unSelectLink(link.id)
-          }
-        }
-      },
-      nodeClick (event, node) {
-        switch (this.tool) {
-          case 'killer':
-            this.removeNode(node.id)
-            break
-          case 'pin':
-            this.pinNode(node)
-            break
-          default: // selection tool
-            // is selected
-            if (this.selected[node.id]) {
-              this.unSelectNode(node.id)
-              // is not selected
-            } else {
-              this.selectNode(node)
-            }
-            this.selectNodesLinks()
-            break
-        }
-        this.updateSelection()
-      },
-      linkClick (event, link) {
-        if (this.tool === 'killer') {
-          this.removeLink(link)
-        } else {
-          if (this.linksSelected[link.id]) {
-            this.unSelectLink(link.id)
-          } else {
-            this.selectLink(link)
-          }
-        }
-        this.updateSelection()
-      },
-      selectLink (link) {
-        this.$set(this.linksSelected, link.id, link)
-      },
-      clearSelection () {
-        this.selected = {}
-        this.linksSelected = {}
-      },
-      unSelectNode (nodeId) {
-        if (this.selected[nodeId]) {
-          Vue.delete(this.selected, nodeId)
-        }
-        this.selectNodesLinks()
-      },
-      unSelectLink (linkId) {
-        if (this.linksSelected[linkId]) {
-          Vue.delete(this.linksSelected, linkId)
-        }
+      lock (node) {
+        this.$refs.mappingNetwork.pinNode(node)
+      }
+    },
+    watch: {
+      selection (s) {
+        this.selectionLength = Object.keys(s.nodes).length + Object.keys(s.links).length
+        this.showSelection = !!this.selectionLength
       }
     },
     computed: {
@@ -160,7 +79,10 @@
         return this.entities.map(e => ({
           id: e.id,
           name: e.nom,
-          _size: 25
+          _size: 25,
+          pinned: false,
+          fx: null,
+          fy: null
         }))
       },
       links () {
@@ -170,30 +92,46 @@
           sid: l.source,
           tid: l.target
         }))
+      },
+      indexedNodes () {
+        const idx = {}
+        this.entities.forEach(l => {
+          idx[l.id] = l
+        })
+        return idx
+      },
+      groupedLinks () {
+        const grp = {}
+        this.entitiesLink.forEach(l => {
+          addOrPush(grp, l.source, l)
+          addOrPush(grp, l.target, l)
+        })
+        return grp
       }
+    }
+  }
+
+  function addOrPush (o, k, v) {
+    if (o[k]) {
+      o[k].push(v)
+    } else {
+      o[k] = [v]
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h1, h2 {
-        font-weight: normal;
+    .selection {
+        position: fixed;
+        top: 75px;
+        right: 0;
+        width: 300px;
+        padding: 24px 16px;
+        max-height: 75vh;
+        overflow: auto;
     }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    a {
-        color: #42b983;
+    .selection .headline {
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
-
-

@@ -216,5 +216,60 @@ export default [
       evolution: '',
       commentaire: ''
     }
+  },
+  {
+    id: 4,
+    nom: 'VEHICULE',
+    applis: [],
+    solrSearch: true,
+    ancre: null,
+    ancrePosition: null,
+    instances: [
+      {
+        nom: 'VOITURE',
+        description: 'Voiture',
+        affichage_fonctionnel: '{IMMATRICULATION}',
+        form: false
+      },
+      {
+        nom: 'BATEAU',
+        description: 'Bateau',
+        affichage_fonctionnel: '{IMMATRICULATION}',
+        form: false
+      }
+    ],
+    attributs: {
+      lien: '',
+      sousObjet: '',
+      nomDuChamp: '',
+      libelle: '',
+      libelleLong: '',
+      referentiel: '',
+      taille: '',
+      hauteur: '',
+      offsetG: '',
+      position: '',
+      aLaLigne: '',
+      required: '',
+      type: '',
+      typeIHM: '',
+      indexSolr: '',
+      rechercheSolr: '',
+      cleFonc: '',
+      entitesAssociees: '',
+      cassiopeeGn: '',
+      fovesGn: '',
+      osirisGn: '',
+      pulsarGn: '',
+      tajGn: '',
+      rijGn: '',
+      fovesPn: '',
+      tajPn: '',
+      pafisaPn: '',
+      osirisPn: '',
+      statsPn: '',
+      evolution: '',
+      commentaire: ''
+    }
   }
 ]

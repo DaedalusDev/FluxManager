@@ -23,7 +23,7 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'Acceuil',
+      name: 'Accueil',
       component: Home,
       icon: 'home'
     },
