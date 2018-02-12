@@ -4,7 +4,7 @@
         :net-nodes="nodes"
         :net-links="links"
         :options="options"
-        :selection="{nodes: selected, links: linksSelected}"
+        :selection="value"
         @node-click="nodeClick"
         @link-click="linkClick"
         style="user-select: none"/>
@@ -33,6 +33,22 @@ export default {
     opt: {
       type: Object,
       default: () => {}
+    },
+    value: {
+      type: Object,
+      default: () => ({nodes: {}, links: {}})
+    }
+  },
+  watch: {
+    nodes: function (v, oldV) {
+      oldV.forEach((old) => {
+        if (v.every((n) => n.id !== old.id)) {
+          this.$delete(this.selected, old.id)
+        }
+      })
+      this.linksSelected = {}
+      this.selectNodesLinks()
+      this.updateSelection()
     }
   },
   data () {
@@ -92,6 +108,7 @@ export default {
       }
     },
     updateSelection () {
+      // console.log('updateSelection')
       this.$emit('input', this.selection())
     },
     pinNode (node) {
@@ -127,8 +144,8 @@ export default {
     unSelectNode (nodeId) {
       if (this.selected[nodeId]) {
         this.$delete(this.selected, nodeId)
+        this.selectNodesLinks()
       }
-      this.selectNodesLinks()
     },
     unSelectLink (linkId) {
       if (this.linksSelected[linkId]) {
@@ -150,7 +167,7 @@ export default {
           w,
           h
         },
-        force: 10000,
+        force: 5000 * Math.max(1, ~~this.opt.forceFactor),
         nodeSize: 25,
         linkWidth: 5,
         nodeLabels: true,

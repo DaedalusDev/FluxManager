@@ -8,14 +8,13 @@
                         <v-form ref="form" @click="$event.stopPropagation()">
                             <v-checkbox
                                     label="Nom des entités"
-                                    v-model="opt.nodeLabels"
-                                    @change="handleChange"
+                                    v-model="value.nodeLabels"
                             ></v-checkbox>
                             <v-checkbox
-                                    label="Nom des liens"
-                                    v-model="opt.linkLabels"
-                                    @change="handleChange"
+                                    label="Info des liens"
+                                    v-model="value.linkLabels"
                             ></v-checkbox>
+                            <v-slider v-model="value.forceFactor" thumb-label label="Force" step="10" ticks></v-slider>
                         </v-form>
                     </v-flex>
                 </v-layout>
@@ -39,19 +38,17 @@
 
 <script>
   export default {
+    props: {
+      value: {
+        type: Object
+      }
+    },
     data () {
       return {
-        showForm: false,
-        opt: {
-          nodeLabels: true,
-          linkLabels: true
-        }
+        showForm: false
       }
     },
     methods: {
-      handleChange () {
-        this.$emit('input', this.opt)
-      },
       toggleMenu () {
         this.showForm = !this.showForm
       }

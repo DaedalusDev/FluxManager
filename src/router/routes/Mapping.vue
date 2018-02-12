@@ -11,32 +11,23 @@
                     ref="mappingNetwork"/>
             </keep-alive>
             <v-slide-x-reverse-transition mode="in-out">
-                <v-container grid-list-md v-show="showSelection" class="selection card">
+                <v-container grid-list-md v-show="showSelection" class="selection">
                     <v-layout row wrap>
-                        <h3 class="headline mb-0">Sélection</h3>
-                        <v-flex xs12 v-for="node in selection.nodes" :key="node.id">
-                            <v-card>
-                                <v-card-title primary-title>
-                                    <h4 class="headline">{{node.name}}</h4>
-                                    <div>
-                                        <div v-for="link in groupedLinks[node.id]">
-                                            <span>Lien(s) avec {{ indexedNodes[(link.source === node.id ? link.target : link.source)]['nom'] }}</span>
-                                            <span v-for="linkType in link.linksType"><br />- {{linkType}}</span>
-                                        </div>
-                                    </div>
-                                </v-card-title>
-                                <v-card-actions>
-                                    <v-btn icon @click="lock(node)">
-                                        <v-icon>{{ node.pinned ? 'lock_open' : 'lock_outline' }}</v-icon>
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-flex>
+                        <transition-group name="slide-x-reverse-transition" style="width: 100%">
+                            <v-flex xs12 v-for="node in selection.nodes" :key="node.id">
+                                <mapping-node-info
+                                    :node="node"
+                                    :groupedLinks="groupedLinks[node.id]"
+                                    :indexedNodes="indexedNodes"
+                                    @lock="lock(node)"/>
+                            </v-flex>
+                        </transition-group>
                     </v-layout>
                 </v-container>
             </v-slide-x-reverse-transition>
             <mapping-options v-model="opt"/>
             <mapping-tools v-model="currentTool"/>
+            {{ selection }}
         </v-layout>
     </v-container>
 </template>
@@ -45,6 +36,7 @@
   import MappingTools from '../../components/Mapping/MappingTools'
   import MappingNetwork from '../../components/Mapping/MappingNetwork'
   import MappingOptions from '../../components/Mapping/MappingOptions'
+  import MappingNodeInfo from '../../components/Mapping/MappingNodeInfo'
   import {createNamespacedHelpers} from 'vuex'
 
   const storeManager = createNamespacedHelpers('manager')
@@ -53,13 +45,17 @@
     components: {
       MappingNetwork,
       MappingTools,
-      MappingOptions
+      MappingOptions,
+      MappingNodeInfo
     },
     data () {
       return {
         currentTool: {},
-        selection: {},
-        opt: {},
+        selection: {nodes: {}, links: {}},
+        opt: {
+          nodeLabels: true,
+          linkLabels: true
+        },
         selectionLength: 0,
         showSelection: false
       }
@@ -93,7 +89,7 @@
       links () {
         return this.entitiesLink.map(l => ({
           id: l.id,
-          name: l.linksType.length + ' lien(s)',
+          name: l.linksType.length + ' lien' + (l.linksType.length > 1 ? 's' : ''),
           sid: l.source,
           tid: l.target
         }))
@@ -133,7 +129,8 @@
         width: 300px;
         padding: 24px 16px;
         max-height: 75vh;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     .selection .headline {
         overflow: hidden;

@@ -20,8 +20,11 @@ const mutations = {
    * Supprime une entite
    * @param state
    */
-  [types.ENTITIES_DELETE_ENTITY]: function (state) {
-    // state.isOpen = !state.isOpen
+  [types.ENTITIES_DELETE_ENTITY]: function (state, {id}) {
+    const e = state.find((e) => id === e.id)
+    if (!e) throw new Error('Unaivalaible entity')
+    state.splice(state.indexOf(e), 1)
+    return state
   }
 }
 
