@@ -7,9 +7,9 @@
                     :tool="currentTool.value"
                     :nodes="nodes"
                     :links="links"
+                    :opt="opt"
                     ref="mappingNetwork"/>
             </keep-alive>
-            <mapping-tools v-model="currentTool"/>
             <v-slide-x-reverse-transition mode="in-out">
                 <v-container grid-list-md v-show="showSelection" class="selection card">
                     <v-layout row wrap>
@@ -35,6 +35,8 @@
                     </v-layout>
                 </v-container>
             </v-slide-x-reverse-transition>
+            <mapping-options v-model="opt"/>
+            <mapping-tools v-model="currentTool"/>
         </v-layout>
     </v-container>
 </template>
@@ -42,6 +44,7 @@
 <script>
   import MappingTools from '../../components/Mapping/MappingTools'
   import MappingNetwork from '../../components/Mapping/MappingNetwork'
+  import MappingOptions from '../../components/Mapping/MappingOptions'
   import {createNamespacedHelpers} from 'vuex'
 
   const storeManager = createNamespacedHelpers('manager')
@@ -49,12 +52,14 @@
   export default {
     components: {
       MappingNetwork,
-      MappingTools
+      MappingTools,
+      MappingOptions
     },
     data () {
       return {
         currentTool: {},
         selection: {},
+        opt: {},
         selectionLength: 0,
         showSelection: false
       }
@@ -66,7 +71,7 @@
     },
     watch: {
       selection (s) {
-        this.selectionLength = Object.keys(s.nodes).length + Object.keys(s.links).length
+        this.selectionLength = Object.keys(s.nodes).length
         this.showSelection = !!this.selectionLength
       }
     },

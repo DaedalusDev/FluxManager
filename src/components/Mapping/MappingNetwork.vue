@@ -29,24 +29,14 @@ export default {
     links: {
       type: Array,
       default: () => []
+    },
+    opt: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
-    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 110
     return {
-      options: {
-        size: {
-          w,
-          h
-        },
-        force: 10000,
-        nodeSize: 25,
-        linkWidth: 5,
-        nodeLabels: true,
-        linkLabels: true,
-        strLinks: true
-      },
       selected: {},
       linksSelected: {},
       pinned: {},
@@ -149,6 +139,25 @@ export default {
     clearSelection () {
       this.selected = {}
       this.linksSelected = {}
+    }
+  },
+  computed: {
+    options () {
+      const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+      const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 110
+      return {
+        size: {
+          w,
+          h
+        },
+        force: 10000,
+        nodeSize: 25,
+        linkWidth: 5,
+        nodeLabels: true,
+        linkLabels: true,
+        strLinks: true,
+        ...this.opt
+      }
     }
   }
 }
