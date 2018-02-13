@@ -14,7 +14,7 @@
                                     label="Info des liens"
                                     v-model="value.linkLabels"
                             ></v-checkbox>
-                            <v-slider v-model="value.forceFactor" thumb-label label="Force" step="10" ticks></v-slider>
+                            <v-slider v-model="value.forceFactor" thumb-label label="Force" ticks></v-slider>
                         </v-form>
                     </v-flex>
                 </v-layout>
@@ -65,6 +65,7 @@
         padding: 24px 16px;
         max-height: 75vh;
         overflow: auto;
+        z-index:4;
     }
     .optWrapper .headline {
         overflow: hidden;

@@ -10,12 +10,13 @@ const mutations = {
   },
 
   /**
-   * Actualise une entité
+   * Actualise toute une une entité
    * @param state
    */
   [types.ENTITIES_UPDATE_ENTITY]: function (state, entity) {
     // state.entities = false
   },
+
   /**
    * Supprime une entite
    * @param state

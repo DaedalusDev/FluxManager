@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Home from '@/router/routes/Home'
 import Mapping from '@/router/routes/Mapping'
+import Table from '@/router/routes/Table'
+
 import PageNotFound from '@/router/routes/PageNotFound'
 
 Vue.use(Router)
@@ -12,6 +15,12 @@ const routes = [
     name: 'Mapping',
     component: Mapping,
     icon: 'bubble_chart'
+  },
+  {
+    path: '/table',
+    name: 'Table des entités',
+    component: Table,
+    icon: 'list'
   }
 ]
 

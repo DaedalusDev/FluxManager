@@ -1,0 +1,33 @@
+export default {
+  namespaced: true,
+  state: {
+    '00011': 'Assisté de',
+    '00012': 'En compagnie de',
+    '00013': 'En présence de',
+    '00021': 'Victime',
+    '00022': 'Mis(e) en cause',
+    '00023': 'Victime et Mis(e) en cause',
+    '00024': 'Autre',
+    '00031': 'Agent',
+    '00032': 'Avocat',
+    '00033': 'Interprète',
+    '00041': 'defaut',
+    '00042': 'Rédacteur',
+    '00001': 'Vole',
+    '00003': 'Utilise',
+    '00006': 'Saisi Scelle',
+    '00007': 'Concerne',
+    '00010': 'AV Crime Saisi',
+    '00002': 'Degrade',
+    '00004': 'Restitue',
+    '00008': 'Decouvert',
+    '00005': 'Saisi',
+    '00009': 'AV Crim Identif',
+    '00101': 'Proprietaire',
+    '00102': 'Titulaire',
+    '00103': 'Loue',
+    '00104': 'Infraction',
+    '00105': 'Signalement',
+    '00106': 'Intervenant'
+  }
+}

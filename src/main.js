@@ -24,6 +24,7 @@ Vue.config.productionTip = false
 Vue.use(ApplicationConst)
 
 /* eslint-disable no-new */
+window.Vue = Vue
 window.vueInstance = new Vue({
   el: '#app',
   router,

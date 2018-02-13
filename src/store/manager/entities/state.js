@@ -3,25 +3,116 @@
  * {
       id: 1,
       nom: 'PROCEDURE',
-      applis: [],
       solrSearch: true,
       ancre: null,
-      ancrePosition: null,
       instances: [
         {
           nom: 'PROCEDURE',
           description: 'Procédure',
-          affichage_fonctionnel: '{MNEMONIQUE_PROCEDURE}',
+          affichageFonctionnel: '{MNEMONIQUE_PROCEDURE}',
           form: false
         },
         {
           nom: 'COURRIER',
           description: 'Courrier',
-          affichage_fonctionnel: '{NUMERO_PROCEDURE}',
+          affichageFonctionnel: '{NUMERO_PROCEDURE}',
           form: false
         }
       ],
-      attributs: {
+      attributs: [
+        {
+          lien: '',
+          sousObjet: '',
+          nomDuChamp: '',
+          libelle: '',
+          libelleLong: '',
+          referentiel: '',
+          taille: '',
+          hauteur: '',
+          offsetG: '',
+          position: '',
+          aLaLigne: '',
+          required: '',
+          type: '',
+          typeIHM: '',
+          indexSolr: '',
+          rechercheSolr: '',
+          cleFonc: '',
+          entitesAssociees: '',
+          systCentraux: [],
+          evolution: false,
+          commentaire: ''
+        }
+      ]
+    }
+ */
+
+export default [
+  {
+    id: 1,
+    nom: 'PROCEDURE',
+    solrSearch: true,
+    ancre: null,
+    instances: [
+      {
+        nom: 'PROCEDURE',
+        description: 'Procédure',
+        affichageFonctionnel: '{MNEMONIQUE_PROCEDURE}',
+        form: false
+      },
+      {
+        nom: 'COURRIER',
+        description: 'Courrier',
+        affichageFonctionnel: '{NUMERO_PROCEDURE}',
+        form: false
+      }
+    ],
+    attributs: [
+      {
+        lien: '',
+        sousObjet: '',
+        nomDuChamp: 'NUMERO_PROCEDURE',
+        libelle: 'Numéro de procédure',
+        libelleLong: '',
+        referentiel: '',
+        taille: 4,
+        hauteur: 1,
+        offsetG: '',
+        position: 1,
+        aLaLigne: true,
+        required: false,
+        type: 'TEXTE',
+        typeIHM: '',
+        indexSolr: true,
+        rechercheSolr: true,
+        cleFonc: 0,
+        entitesAssociees: 'COURRIER',
+        evolution: false,
+        commentaire: ''
+      }
+    ]
+  },
+  {
+    id: 2,
+    nom: 'PIECE_PROCEDURE',
+    solrSearch: true,
+    ancre: null,
+    instances: [
+      {
+        nom: 'PROCEDURE',
+        description: 'Procédure',
+        affichageFonctionnel: '{MNEMONIQUE_PROCEDURE}',
+        form: false
+      },
+      {
+        nom: 'COURRIER',
+        description: 'Courrier',
+        affichageFonctionnel: '{NUMERO_PROCEDURE}',
+        form: false
+      }
+    ],
+    attributs: [
+      {
         lien: '',
         sousObjet: '',
         nomDuChamp: '',
@@ -40,236 +131,94 @@
         rechercheSolr: '',
         cleFonc: '',
         entitesAssociees: '',
-        cassiopeeGn: '',
-        fovesGn: '',
-        osirisGn: '',
-        pulsarGn: '',
-        tajGn: '',
-        rijGn: '',
-        fovesPn: '',
-        tajPn: '',
-        pafisaPn: '',
-        osirisPn: '',
-        statsPn: '',
-        evolution: '',
+        systCentraux: [],
+        evolution: false,
         commentaire: ''
       }
-    }
- */
-
-export default [
-  {
-    id: 1,
-    nom: 'PROCEDURE',
-    applis: [],
-    solrSearch: true,
-    ancre: null,
-    ancrePosition: null,
-    instances: [
-      {
-        nom: 'PROCEDURE',
-        description: 'Procédure',
-        affichage_fonctionnel: '{MNEMONIQUE_PROCEDURE}',
-        form: false
-      },
-      {
-        nom: 'COURRIER',
-        description: 'Courrier',
-        affichage_fonctionnel: '{NUMERO_PROCEDURE}',
-        form: false
-      }
-    ],
-    attributs: {
-      lien: '',
-      sousObjet: '',
-      nomDuChamp: '',
-      libelle: '',
-      libelleLong: '',
-      referentiel: '',
-      taille: '',
-      hauteur: '',
-      offsetG: '',
-      position: '',
-      aLaLigne: '',
-      required: '',
-      type: '',
-      typeIHM: '',
-      indexSolr: '',
-      rechercheSolr: '',
-      cleFonc: '',
-      entitesAssociees: '',
-      cassiopeeGn: '',
-      fovesGn: '',
-      osirisGn: '',
-      pulsarGn: '',
-      tajGn: '',
-      rijGn: '',
-      fovesPn: '',
-      tajPn: '',
-      pafisaPn: '',
-      osirisPn: '',
-      statsPn: '',
-      evolution: '',
-      commentaire: ''
-    }
-  },
-  {
-    id: 2,
-    nom: 'PIECE_PROCEDURE',
-    applis: [],
-    solrSearch: true,
-    ancre: null,
-    ancrePosition: null,
-    instances: [
-      {
-        nom: 'PROCEDURE',
-        description: 'Procédure',
-        affichage_fonctionnel: '{MNEMONIQUE_PROCEDURE}',
-        form: false
-      },
-      {
-        nom: 'COURRIER',
-        description: 'Courrier',
-        affichage_fonctionnel: '{NUMERO_PROCEDURE}',
-        form: false
-      }
-    ],
-    attributs: {
-      lien: '',
-      sousObjet: '',
-      nomDuChamp: '',
-      libelle: '',
-      libelleLong: '',
-      referentiel: '',
-      taille: '',
-      hauteur: '',
-      offsetG: '',
-      position: '',
-      aLaLigne: '',
-      required: '',
-      type: '',
-      typeIHM: '',
-      indexSolr: '',
-      rechercheSolr: '',
-      cleFonc: '',
-      entitesAssociees: '',
-      cassiopeeGn: '',
-      fovesGn: '',
-      osirisGn: '',
-      pulsarGn: '',
-      tajGn: '',
-      rijGn: '',
-      fovesPn: '',
-      tajPn: '',
-      pafisaPn: '',
-      osirisPn: '',
-      statsPn: '',
-      evolution: '',
-      commentaire: ''
-    }
+    ]
   },
   {
     id: 3,
     nom: 'PERSONNE_PHYSIQUE',
-    applis: [],
     solrSearch: true,
     ancre: null,
-    ancrePosition: null,
     instances: [
       {
         nom: 'PROCEDURE',
         description: 'Procédure',
-        affichage_fonctionnel: '{MNEMONIQUE_PROCEDURE}',
+        affichageFonctionnel: '{MNEMONIQUE_PROCEDURE}',
         form: false
       }
     ],
-    attributs: {
-      lien: '',
-      sousObjet: '',
-      nomDuChamp: '',
-      libelle: '',
-      libelleLong: '',
-      referentiel: '',
-      taille: '',
-      hauteur: '',
-      offsetG: '',
-      position: '',
-      aLaLigne: '',
-      required: '',
-      type: '',
-      typeIHM: '',
-      indexSolr: '',
-      rechercheSolr: '',
-      cleFonc: '',
-      entitesAssociees: '',
-      cassiopeeGn: '',
-      fovesGn: '',
-      osirisGn: '',
-      pulsarGn: '',
-      tajGn: '',
-      rijGn: '',
-      fovesPn: '',
-      tajPn: '',
-      pafisaPn: '',
-      osirisPn: '',
-      statsPn: '',
-      evolution: '',
-      commentaire: ''
-    }
+    attributs: [
+      {
+        lien: '',
+        sousObjet: '',
+        nomDuChamp: '',
+        libelle: '',
+        libelleLong: '',
+        referentiel: '',
+        taille: '',
+        hauteur: '',
+        offsetG: '',
+        position: '',
+        aLaLigne: '',
+        required: '',
+        type: '',
+        typeIHM: '',
+        indexSolr: '',
+        rechercheSolr: '',
+        cleFonc: '',
+        entitesAssociees: '',
+        systCentraux: [],
+        evolution: false,
+        commentaire: ''
+      }
+    ]
   },
   {
     id: 4,
     nom: 'VEHICULE',
-    applis: [],
     solrSearch: true,
     ancre: null,
-    ancrePosition: null,
     instances: [
       {
         nom: 'VOITURE',
         description: 'Voiture',
-        affichage_fonctionnel: '{IMMATRICULATION}',
+        affichageFonctionnel: '{IMMATRICULATION}',
         form: false
       },
       {
         nom: 'BATEAU',
         description: 'Bateau',
-        affichage_fonctionnel: '{IMMATRICULATION}',
+        affichageFonctionnel: '{IMMATRICULATION}',
         form: false
       }
     ],
-    attributs: {
-      lien: '',
-      sousObjet: '',
-      nomDuChamp: '',
-      libelle: '',
-      libelleLong: '',
-      referentiel: '',
-      taille: '',
-      hauteur: '',
-      offsetG: '',
-      position: '',
-      aLaLigne: '',
-      required: '',
-      type: '',
-      typeIHM: '',
-      indexSolr: '',
-      rechercheSolr: '',
-      cleFonc: '',
-      entitesAssociees: '',
-      cassiopeeGn: '',
-      fovesGn: '',
-      osirisGn: '',
-      pulsarGn: '',
-      tajGn: '',
-      rijGn: '',
-      fovesPn: '',
-      tajPn: '',
-      pafisaPn: '',
-      osirisPn: '',
-      statsPn: '',
-      evolution: '',
-      commentaire: ''
-    }
+    attributs: [
+      {
+        lien: '',
+        sousObjet: '',
+        nomDuChamp: '',
+        libelle: '',
+        libelleLong: '',
+        referentiel: '',
+        taille: '',
+        hauteur: '',
+        offsetG: '',
+        position: '',
+        aLaLigne: '',
+        required: '',
+        type: '',
+        typeIHM: '',
+        indexSolr: '',
+        rechercheSolr: '',
+        cleFonc: '',
+        entitesAssociees: '',
+        systCentraux: [],
+        evolution: false,
+        commentaire: ''
+      }
+    ]
   }
 ]

@@ -27,7 +27,6 @@
             </v-slide-x-reverse-transition>
             <mapping-options v-model="opt"/>
             <mapping-tools v-model="currentTool"/>
-            {{ selection }}
         </v-layout>
     </v-container>
 </template>
