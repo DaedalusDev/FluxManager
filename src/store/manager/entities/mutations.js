@@ -14,7 +14,10 @@ const mutations = {
    * @param state
    */
   [types.ENTITIES_UPDATE_ENTITY]: function (state, entity) {
-    // state.entities = false
+    const e = state.find((e) => e.id === entity.id)
+    if (e) {
+      Object.assign(e, entity)
+    }
   },
 
   /**

@@ -10,16 +10,25 @@
             transition="slide-x-reverse-transition"
             @click.native="$event.stopPropagation()"
             v-model="isActive"
+            :disabled="!h.editable"
     >
         <a slot="activator">{{ (h.format? h.format(value): value) || 'Aucun'}}</a>
-        <div @keydown="handleKeydown">
+        <div @keydown.esc="cancel" @keydown.enter="save">
+            <v-switch
+                v-if="inputType === 'bool'"
+                ref="input"
+                label="Activer"
+                v-model="tmpValue"
+                style="padding: 18px 0 0;"
+            />
             <v-text-field
-                    ref="input"
-                    label="Edit"
-                    v-model="tmpValue"
-                    single-line
-                    counter
-            ></v-text-field>
+                v-if="inputType === 'string'"
+                ref="input"
+                label="Modifier"
+                v-model="tmpValue"
+                single-line
+                counter
+            />
         </div>
         <div class="small-dialog__actions">
             <v-btn flat
@@ -51,21 +60,16 @@
     data () {
       return {
         tmpValue: this.value,
-        returnedValue: null,
+        returnedValue: undefined,
         isActive: false
       }
     },
     methods: {
-      handleKeydown (e) {
-        const input = this.$refs.input
-        e.keyCode === 27 && this.cancel()
-        e.keyCode === 13 && input && this.save(input.value)
-      },
       close () {
         this.isActive = false
       },
       cancel () {
-        this.returnedValue = null
+        this.returnedValue = undefined
         this.tmpValue = this.value
         this.close()
       },
@@ -75,15 +79,31 @@
       }
     },
     watch: {
+      value (v) {
+        this.tmpValue = v
+      },
       isActive (v) {
         setTimeout(() => {
           const input = this.$refs.input
-          if (input && v) {
+          if (v && input && typeof input.focus === 'function') {
             input.focus()
           }
         }, 50)
-        if (this.returnedValue) {
+        if (this.returnedValue !== undefined) {
           this.$emit('input', this.returnedValue)
+          this.returnedValue = undefined
+        }
+      }
+    },
+    computed: {
+      inputType () {
+        switch (this.h.type) {
+          case Boolean:
+            return 'bool'
+          case Array:
+            return 'array'
+          default:
+            return 'string'
         }
       }
     }

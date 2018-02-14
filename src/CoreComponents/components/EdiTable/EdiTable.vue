@@ -30,7 +30,7 @@
                       <edi-table-cell
                         :h="h"
                         v-model="props.item[h.key]"
-                        @input="commit(props.item)"
+                        @input="commit(entities ? props.item : entity)"
                       />
                     </td>
                   </tr>
@@ -43,6 +43,7 @@
                           :entity="props.item"
                           v-bind="ediTable"
                           :key="k"
+                          @commit="commit"
                       />
                     </v-layout>
                   </v-container>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+import {detectFormat} from './../../../utils'
 import EdiTableCell from './EdiTableCell'
 
 export default {
@@ -92,7 +94,7 @@ export default {
   },
   methods: {
     commit (item) {
-      console.log('commit', item)
+      this.$emit('commit', item)
     }
   },
   computed: {
@@ -102,13 +104,14 @@ export default {
       for (let key in format) {
         let h = this.headersAttr[key]
         if (h) {
-          let et = format[key]
+          const et = format[key]
           headers.push({
             text: et.label,
             type: et.type,
             key: key,
             value: key,
             editable: true,
+            format: detectFormat(et.type),
             ...h
           })
         }

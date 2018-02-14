@@ -4,6 +4,7 @@
       <edi-table
           :entities="items"
           v-bind="ediTables"
+          @commit="commit"
       />
     </v-layout>
   </v-container>
@@ -12,9 +13,11 @@
 <script>
 import _ from 'lodash'
 import {createNamespacedHelpers} from 'vuex'
-import {formatOuiNon, formatCount} from '../../utils'
+import {formatCount} from '../../utils'
+import * as typesEntities from '../../store/manager/entities/mutation-types'
 
 const storeManager = createNamespacedHelpers('manager')
+const storeEntities = createNamespacedHelpers('manager/entities')
 
 export default {
   data () {
@@ -25,9 +28,7 @@ export default {
           nom: {
             align: 'left'
           },
-          solrSearch: {
-            format: formatOuiNon
-          },
+          solrSearch: {},
           instances: {
             sortable: false,
             format: formatCount,
@@ -98,7 +99,10 @@ export default {
     generateItems () {
       const items = this.entities.map((e) => _.cloneDeep(e))
       this.items = items
-    }
+    },
+    ...storeEntities.mapMutations({
+      commit: typesEntities.ENTITIES_UPDATE_ENTITY
+    })
   },
   watch: {
     entities () {
