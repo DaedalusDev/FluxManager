@@ -8,6 +8,9 @@ import 'vuetify/dist/vuetify.min.css'
 import 'vue-d3-network/dist/vue-d3-network.css'
 import store from './store'
 import ApplicationConst from './data/const'
+import CoreComponents from './CoreComponents'
+
+Vue.use(CoreComponents)
 
 Vue.use(Vuetify, { theme: {
   primary: '#ee44aa',
