@@ -25,25 +25,13 @@
                   :search="search"
               >
                 <template slot="items" slot-scope="props">
-                  <tr @click="ediTables ? props.expanded = !props.expanded : null">
-                    <td v-for="h in headers" :key="h.key" class="text-xs-left">
-                      <v-edit-dialog
-                          v-if="h.editable"
-                          lazy
-                          large
-                          cancel-text="Annuler"
-                          save-text="Valider"
-                          @click.native="$event.stopPropagation()"
-                          :return-value.sync="props.item[h.key]"
-                      >{{ (h.format? h.format(props.item[h.key]): props.item[h.key]) || 'Aucun'}}
-                        <edi-table-field
-                            slot="input"
-                            v-model="props.item[h.key]"
-                        />
-                      </v-edit-dialog>
-                      <span v-else>
-                        {{(h.format? h.format(props.item[h.key]): props.item[h.key]) || 'Aucun'}}
-                      </span>
+                  <tr @click="ediTables ? props.expanded = !props.expanded : null" :key="props.item.id">
+                    <td v-for="h in headers" class="text-xs-left">
+                      <edi-table-cell
+                        :h="h"
+                        v-model="props.item[h.key]"
+                        @input="commit(props.item)"
+                      />
                     </td>
                   </tr>
                 </template>
@@ -69,12 +57,12 @@
 </template>
 
 <script>
-import EdiTableField from './EdiTableFlield'
+import EdiTableCell from './EdiTableCell'
 
 export default {
   name: 'edi-table',
   components: {
-    EdiTableField
+    EdiTableCell
   },
   props: {
     title: {
@@ -103,8 +91,8 @@ export default {
     }
   },
   methods: {
-    close () {
-      console.log('close')
+    commit (item) {
+      console.log('commit', item)
     }
   },
   computed: {

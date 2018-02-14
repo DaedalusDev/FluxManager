@@ -1,7 +1,7 @@
 import EdiTable from './components/EdiTable/EdiTable'
 
 function CoreComponents (Vue) {
-  Vue.component('edi-table', EdiTable)
+  Vue.component(EdiTable.name, EdiTable)
 }
 
 export default CoreComponents
