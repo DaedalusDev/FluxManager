@@ -4,10 +4,32 @@
       <v-card-title primary-title>
         <h3 class="headline mb-0">{{ title }}</h3>
         <v-spacer/>
+        <v-dialog v-model="dialog.open" max-width="500px">
+          <v-btn color="primary" dark slot="activator" class="mb-2">
+            Ajouter
+            <v-icon right dark>add</v-icon>
+          </v-btn>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Nouvel élément</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" flat @click.native="dialog.open = false">Annuler</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="save">Valider</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-text-field
             append-icon="search"
             label="Rechercher"
-            single-line
             hide-details
             v-model="search"
         />
@@ -89,7 +111,11 @@ export default {
   },
   data () {
     return {
-      search: ''
+      search: '',
+      dialog: {
+        open: false
+      },
+      newItem: {}
     }
   },
   methods: {
