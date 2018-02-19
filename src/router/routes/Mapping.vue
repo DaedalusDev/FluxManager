@@ -18,7 +18,7 @@
                                 <mapping-node-info
                                     :node="node"
                                     :groupedLinks="groupedLinks[node.id]"
-                                    :indexedNodes="indexedNodes"
+                                    :indexedNodes="entities"
                                     @lock="lock(node)"/>
                             </v-flex>
                         </transition-group>
@@ -76,7 +76,7 @@
         entitiesLink: 'links'
       }),
       nodes () {
-        return this.entities.map(e => ({
+        return Object.values(this.entities).map(e => ({
           id: e.id,
           name: e.nom,
           _size: 25,
@@ -86,19 +86,12 @@
         }))
       },
       links () {
-        return this.entitiesLink.map(l => ({
+        return Object.values(this.entitiesLink).map(l => ({
           id: l.id,
           name: l.linksType.length + ' lien' + (l.linksType.length > 1 ? 's' : ''),
           sid: l.source,
           tid: l.target
         }))
-      },
-      indexedNodes () {
-        const idx = {}
-        this.entities.forEach(l => {
-          idx[l.id] = l
-        })
-        return idx
       },
       groupedLinks () {
         const grp = {}

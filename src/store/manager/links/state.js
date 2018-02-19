@@ -8,8 +8,8 @@
  }
  */
 
-export default [
-  {
+export default {
+  1: {
     id: 1,
     source: 1,
     target: 2,
@@ -17,7 +17,7 @@ export default [
       'Fond de dossier'
     ]
   },
-  {
+  2: {
     id: 2,
     source: 2,
     target: 3,
@@ -28,7 +28,7 @@ export default [
       'En présence de'
     ]
   },
-  {
+  3: {
     id: 3,
     source: 3,
     target: 4,
@@ -37,7 +37,7 @@ export default [
       'Locataire'
     ]
   },
-  {
+  4: {
     id: 4,
     source: 2,
     target: 4,
@@ -45,7 +45,7 @@ export default [
       'Mis en cause'
     ]
   },
-  {
+  5: {
     id: 5,
     source: 1,
     target: 3,
@@ -55,4 +55,4 @@ export default [
       'Victime et mis en cause'
     ]
   }
-]
+}

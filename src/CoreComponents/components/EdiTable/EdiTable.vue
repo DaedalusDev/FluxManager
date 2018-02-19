@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <h3 class="headline mb-0">{{ title }}</h3>
         <v-spacer/>
-        <v-dialog v-model="dialog.open" max-width="500px">
+        <v-dialog v-model="dialogOpen" max-width="500px">
           <v-btn color="primary" dark slot="activator" class="mb-2">
             Ajouter
             <v-icon right dark>add</v-icon>
@@ -14,16 +14,12 @@
               <span class="headline">Nouvel élément</span>
             </v-card-title>
             <v-card-text>
-              <v-container grid-list-md>
-                <v-layout wrap>
-
-                </v-layout>
-              </v-container>
+                <auto-form ref="form" :model="formFields" v-model="newItem" />
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click.native="dialog.open = false">Annuler</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="save">Valider</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="dialogOpen = false">Annuler</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="insert">Valider</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -82,11 +78,13 @@
 <script>
 import {detectFormat} from './../../../utils'
 import EdiTableCell from './EdiTableCell'
+import AutoForm from '../Form/AutoForm'
 
 export default {
   name: 'edi-table',
   components: {
-    EdiTableCell
+    EdiTableCell,
+    AutoForm
   },
   props: {
     title: {
@@ -112,37 +110,46 @@ export default {
   data () {
     return {
       search: '',
-      dialog: {
-        open: false
-      },
+      dialogOpen: false,
       newItem: {}
     }
   },
   methods: {
     commit (item) {
       this.$emit('commit', item)
+    },
+    insert: async function () {
+      await this.$emit('commit', this.newItem)
+      this.dialogOpen = false
+      this.$refs.form.reset()
     }
   },
   computed: {
+    format () {
+      return this.attrKey ? this.CONST.dataStructure.entity[this.attrKey]._format : this.CONST.dataStructure.entity
+    },
     headers () {
       const headers = []
-      const format = this.attrKey ? this.CONST.dataStructure.entity[this.attrKey]._format : this.CONST.dataStructure.entity
+      const format = this.format
       for (let key in format) {
         let h = this.headersAttr[key]
         if (h) {
           const et = format[key]
           headers.push({
             text: et.label,
-            type: et.type,
-            key: key,
             value: key,
+            key: key,
             editable: true,
             format: detectFormat(et.type),
-            ...h
+            ...h,
+            ...et
           })
         }
       }
       return headers
+    },
+    formFields () {
+      return this.headers.filter((f) => f.required)
     }
   }
 }

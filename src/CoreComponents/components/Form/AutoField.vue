@@ -1,19 +1,20 @@
 <template>
-  <div>
+  <div class="flex">
     <v-switch
         v-if="inputType === 'bool'"
         ref="input"
-        label="Activer"
-        v-model="value"
+        :label="fieldDef.label"
+        v-model="tmpValue"
         style="padding: 18px 0 0;"
+        @change="handleChange"
     />
     <v-text-field
-        v-if="inputType === 'string'"
+        v-else-if="inputType === 'string'"
         ref="input"
-        label="Modifier"
-        v-model="value"
-        single-line
+        :label="fieldDef.label"
+        :value="tmpValue"
         counter
+        @input="handleChange"
     />
   </div>
 </template>
@@ -27,12 +28,25 @@ export default {
     },
     value: {}
   },
+  data () {
+    return {
+      tmpValue: this.value
+    }
+  },
+  watch: {
+    value (v) {
+      this.tmpValue = v
+    }
+  },
   methods: {
     focus () {
       const input = this.$refs.input
       if (input && typeof input.focus === 'function') {
         input.focus()
       }
+    },
+    handleChange (v) {
+      this.$emit('input', v)
     }
   },
   computed: {

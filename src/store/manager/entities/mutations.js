@@ -1,4 +1,6 @@
 import * as types from './mutation-types'
+import Vue from 'vue'
+import {nextVal} from '../utils'
 
 const mutations = {
   /**
@@ -6,7 +8,8 @@ const mutations = {
    * @param state
    */
   [types.ENTITIES_ADD_ENTITY]: function (state, entity) {
-    state.entities.push(entity)
+    entity.id = nextVal(state)
+    Vue.set(state, entity.id, entity)
   },
 
   /**
@@ -14,10 +17,8 @@ const mutations = {
    * @param state
    */
   [types.ENTITIES_UPDATE_ENTITY]: function (state, entity) {
-    const e = state.find((e) => e.id === entity.id)
-    if (e) {
-      Object.assign(e, entity)
-    }
+    if (!entity.id) throw new Error('Un identifiant est necessaire')
+    return Vue.set(state, entity.id, entity)
   },
 
   /**
@@ -25,9 +26,7 @@ const mutations = {
    * @param state
    */
   [types.ENTITIES_DELETE_ENTITY]: function (state, {id}) {
-    const e = state.find((e) => id === e.id)
-    if (!e) throw new Error('Unaivalaible entity')
-    state.splice(state.indexOf(e), 1)
+    Vue.delete(state, id)
     return state
   }
 }

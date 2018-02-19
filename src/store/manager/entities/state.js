@@ -47,8 +47,8 @@
     }
  */
 
-export default [
-  {
+export default {
+  1: {
     id: 1,
     nom: 'PROCEDURE',
     solrSearch: true,
@@ -92,7 +92,7 @@ export default [
       }
     ]
   },
-  {
+  2: {
     id: 2,
     nom: 'PIECE_PROCEDURE',
     solrSearch: true,
@@ -137,7 +137,7 @@ export default [
       }
     ]
   },
-  {
+  3: {
     id: 3,
     nom: 'PERSONNE_PHYSIQUE',
     solrSearch: true,
@@ -176,7 +176,7 @@ export default [
       }
     ]
   },
-  {
+  4: {
     id: 4,
     nom: 'VEHICULE',
     solrSearch: true,
@@ -221,4 +221,4 @@ export default [
       }
     ]
   }
-]
+}

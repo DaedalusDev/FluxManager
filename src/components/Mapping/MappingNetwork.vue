@@ -108,7 +108,6 @@ export default {
       }
     },
     updateSelection () {
-      // console.log('updateSelection')
       this.$emit('input', this.selection())
     },
     pinNode (node) {

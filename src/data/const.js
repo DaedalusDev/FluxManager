@@ -7,7 +7,8 @@ export const CONST = {
       },
       nom: {
         type: String,
-        label: 'Nom'
+        label: 'Nom',
+        required: true
       },
       solrSearch: {
         type: Boolean,

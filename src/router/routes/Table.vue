@@ -97,10 +97,10 @@ export default {
   },
   methods: {
     generateItems () {
-      const items = this.entities.map((e) => _.cloneDeep(e))
+      const items = Object.values(this.entities).map((e) => _.cloneDeep(e))
       this.items = items
     },
-    ...storeEntities.mapMutations({
+    ...storeEntities.mapActions({
       commit: typesEntities.ENTITIES_UPDATE_ENTITY
     })
   },
