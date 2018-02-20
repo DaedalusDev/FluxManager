@@ -62,7 +62,7 @@ export default {
               sousObjet: {},
               referentiel: {},
               indexSolr: {},
-              rechercheSolr: {},
+              solrSearch: {},
               cleFonc: {},
               entitesAssociees: {},
               evolution: {},

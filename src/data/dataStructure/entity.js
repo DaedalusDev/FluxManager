@@ -53,7 +53,11 @@ export default {
     _format: {
       nomDuChamp: {
         type: String,
-        label: 'Nom du champ'
+        label: 'Nom du champ',
+        required: true,
+        rules: [
+          rules.required
+        ]
       },
       lien: {
         type: String,
@@ -111,7 +115,7 @@ export default {
         type: Boolean,
         label: 'Index Solr'
       },
-      rechercheSolr: {
+      solrSearch: {
         type: Boolean,
         label: 'Recherche Solr'
       },
