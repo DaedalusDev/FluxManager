@@ -5,7 +5,6 @@
         ref="input"
         :label="fieldDef.label"
         v-model="tmpValue"
-        style="padding: 18px 0 0;"
         @change="handleChange"
     />
     <v-text-field
@@ -19,6 +18,7 @@
     />
     <v-select
         v-else-if="inputType === 'array'"
+        ref="input"
         :label="fieldDef.label"
         :items="fieldDef.items || []"
         v-model="tmpValue"

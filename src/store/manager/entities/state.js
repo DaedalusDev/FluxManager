@@ -21,9 +21,8 @@
       ],
       attributs: [
         {
-          lien: '',
           sousObjet: '',
-          nomDuChamp: '',
+          nom: '',
           libelle: '',
           libelleLong: '',
           referentiel: '',
@@ -69,9 +68,8 @@ export default {
     ],
     attributs: [
       {
-        lien: '',
         sousObjet: '',
-        nomDuChamp: 'NUMERO_PROCEDURE',
+        nom: 'NUMERO_PROCEDURE',
         libelle: 'Numéro de procédure',
         libelleLong: '',
         referentiel: '',
@@ -113,9 +111,8 @@ export default {
     ],
     attributs: [
       {
-        lien: '',
         sousObjet: '',
-        nomDuChamp: '',
+        nom: '',
         libelle: '',
         libelleLong: '',
         referentiel: '',
@@ -152,9 +149,8 @@ export default {
     ],
     attributs: [
       {
-        lien: '',
         sousObjet: '',
-        nomDuChamp: '',
+        nom: '',
         libelle: '',
         libelleLong: '',
         referentiel: '',
@@ -197,9 +193,8 @@ export default {
     ],
     attributs: [
       {
-        lien: '',
         sousObjet: '',
-        nomDuChamp: '',
+        nom: '',
         libelle: '',
         libelleLong: '',
         referentiel: '',

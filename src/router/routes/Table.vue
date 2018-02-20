@@ -55,7 +55,7 @@ export default {
             title: 'Attributs technique',
             attrKey: 'attributs',
             headersAttr: {
-              nomDuChamp: {
+              nom: {
                 align: 'left'
               },
               type: {},
@@ -74,7 +74,7 @@ export default {
             attrKey: 'attributs',
             allowAdd: false,
             headersAttr: {
-              nomDuChamp: {
+              nom: {
                 align: 'left'
               },
               typeIHM: {},

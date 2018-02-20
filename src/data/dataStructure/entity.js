@@ -51,17 +51,13 @@ export default {
     type: Array,
     label: 'Attributs',
     _format: {
-      nomDuChamp: {
+      nom: {
         type: String,
         label: 'Nom du champ',
         required: true,
         rules: [
           rules.required
         ]
-      },
-      lien: {
-        type: String,
-        label: 'Lien'
       },
       sousObjet: {
         type: String,
@@ -76,7 +72,7 @@ export default {
         label: 'Libelle long'
       },
       referentiel: {
-        type: String,
+        type: Array,
         label: 'Référentiel'
       },
       taille: {

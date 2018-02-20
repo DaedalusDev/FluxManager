@@ -18,6 +18,7 @@
                 v-model="tmpValue"
                 :fieldDef="h"
                 ref="input"
+                class="mt-3"
             />
         </div>
         <div class="small-dialog__actions">
