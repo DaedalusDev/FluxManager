@@ -58,12 +58,9 @@ export default {
               nomDuChamp: {
                 align: 'left'
               },
-              libelle: {},
-              libelleLong: {},
+              type: {},
               sousObjet: {},
               referentiel: {},
-              type: {},
-              typeIHM: {},
               indexSolr: {},
               rechercheSolr: {},
               cleFonc: {},
@@ -75,10 +72,14 @@ export default {
           attrIhm: {
             title: 'Attributs IHM',
             attrKey: 'attributs',
+            allowAdd: false,
             headersAttr: {
               nomDuChamp: {
                 align: 'left'
               },
+              typeIHM: {},
+              libelle: {},
+              libelleLong: {},
               taille: {},
               hauteur: {},
               offsetG: {},

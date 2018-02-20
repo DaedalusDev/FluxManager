@@ -68,8 +68,10 @@ export default {
       this.close()
     },
     save () {
-      this.returnedValue = this.tmpValue
-      this.close()
+      if (this.$refs.input.validate()) {
+        this.returnedValue = this.tmpValue
+        this.close()
+      }
     }
   },
   watch: {

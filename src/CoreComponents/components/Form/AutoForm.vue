@@ -1,10 +1,9 @@
 <template>
-  <v-form v-model="valid" ref="form">
+  <v-form v-model="valid" ref="form" @submit="submit">
     <v-container grid-list-md>
       <v-layout wrap>
         <template v-for="field in model">
           <v-flex xs12 sm6>
-            {{ field }}
             <auto-field
                 :field-def="field"
                 v-model="values[field.key]"
@@ -19,6 +18,7 @@
 
 <script>
 import AutoField from './AutoField'
+
 export default {
   components: {
     AutoField
@@ -34,14 +34,16 @@ export default {
   },
   methods: {
     reset () {
-      const values = {}
-      this.model.forEach(function (f) {
-        values[f.key] = undefined
-      })
-      this.values = values
+      this.$refs.form.reset()
+    },
+    validate () {
+      return this.$refs.form.validate()
     },
     handleChange () {
       this.$emit('input', this.values)
+    },
+    submit (e) {
+      this.$emit('submit', e)
     }
   },
   data () {

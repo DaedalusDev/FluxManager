@@ -1,4 +1,5 @@
 import * as types from './mutation-types'
+import _ from 'lodash'
 
 const actions = {
   /**
@@ -6,7 +7,7 @@ const actions = {
    * @param state
    */
   [types.ENTITIES_ADD_ENTITY]: function (context, entity) {
-    context.commit(types.ENTITIES_ADD_ENTITY, entity)
+    context.commit(types.ENTITIES_ADD_ENTITY, _.cloneDeep(entity))
   },
 
   /**
@@ -14,13 +15,14 @@ const actions = {
    * @param state
    */
   [types.ENTITIES_UPDATE_ENTITY]: async function (context, entity) {
+    const clone = _.cloneDeep(entity)
     return new Promise(resolve => {
       if (entity.id) {
-        context.commit(types.ENTITIES_UPDATE_ENTITY, entity)
+        context.commit(types.ENTITIES_UPDATE_ENTITY, clone)
       } else {
-        context.commit(types.ENTITIES_ADD_ENTITY, entity)
+        context.commit(types.ENTITIES_ADD_ENTITY, clone)
       }
-      resolve(entity)
+      resolve(clone)
     })
   },
   /**
@@ -28,7 +30,7 @@ const actions = {
    * @param state
    */
   [types.ENTITIES_DELETE_ENTITY]: function (context, entity) {
-    context.commit(types.ENTITIES_DELETE_ENTITY, entity)
+    context.commit(types.ENTITIES_DELETE_ENTITY, _.cloneDeep(entity))
   }
 }
 

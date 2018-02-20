@@ -95,7 +95,7 @@
       },
       groupedLinks () {
         const grp = {}
-        this.entitiesLink.forEach(l => {
+        Object.values(this.entitiesLink).forEach(l => {
           addOrPush(grp, l.source, l)
           addOrPush(grp, l.target, l)
         })

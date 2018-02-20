@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title primary-title>
       <h4 class="headline mb-0">{{node.name}}</h4>
-      <span class="grey--text">{{ groupedLinks.length }} lien{{groupedLinks.length > 1 ? 's':'' }}</span>
+      <span class="grey--text" v-if="groupedLinks">{{ groupedLinks.length }} lien{{groupedLinks.length > 1 ? 's':'' }}</span>
     </v-card-title>
     <v-card-actions>
       <v-btn icon @click="$emit('lock')">

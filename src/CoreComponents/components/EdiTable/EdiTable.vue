@@ -2,33 +2,48 @@
   <v-flex xs12>
     <v-card>
       <v-card-title primary-title>
-        <h3 class="headline mb-0">{{ title }}</h3>
-        <v-spacer/>
-        <v-dialog v-model="dialogOpen" max-width="500px">
-          <v-btn color="primary" dark slot="activator" class="mb-2">
-            Ajouter
-            <v-icon right dark>add</v-icon>
-          </v-btn>
-          <v-card>
-            <v-card-title>
-              <span class="headline">Nouvel élément</span>
-            </v-card-title>
-            <v-card-text>
-                <auto-form ref="form" :model="formFields" v-model="newItem" />
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click.native="dialogOpen = false">Annuler</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="insert">Valider</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-text-field
-            append-icon="search"
-            label="Rechercher"
-            hide-details
-            v-model="search"
-        />
+        <v-container grid-list-md>
+          <v-layout wrap>
+            <v-flex sm6>
+              <h3 class="headline mb-0">{{ title }}</h3>
+            </v-flex>
+            <v-spacer/>
+            <v-flex sm2>
+              <v-dialog v-if="allowAdd" v-model="dialogOpen" max-width="500px">
+                <v-btn color="primary" dark slot="activator" class="mb-2">
+                  Ajouter
+                  <v-icon right dark>add</v-icon>
+                </v-btn>
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Nouvel élément</span>
+                  </v-card-title>
+                  <v-card-text>
+                      <auto-form
+                          ref="form"
+                          :model="formFields"
+                          v-model="newItem"
+                          @submit="insert"
+                      />
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click.native="dialogOpen = false">Annuler</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="insert">Valider</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-flex>
+            <v-flex sm4>
+              <v-text-field
+                  append-icon="search"
+                  label="Rechercher"
+                  hide-details
+                  v-model="search"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-card-title>
       <v-card-text>
         <v-container fluid>
@@ -54,7 +69,7 @@
                   </tr>
                 </template>
                 <template v-if="ediTables" slot="expand" slot-scope="props">
-                  <v-container grid-list-md text-xs-center>
+                  <v-container grid-list-md>
                     <v-layout row wrap>
                       <edi-table
                           v-for="(ediTable, k) in ediTables"
@@ -79,6 +94,7 @@
 import {detectFormat} from './../../../utils'
 import EdiTableCell from './EdiTableCell'
 import AutoForm from '../Form/AutoForm'
+import _ from 'lodash'
 
 export default {
   name: 'edi-table',
@@ -105,6 +121,10 @@ export default {
     },
     ediTables: {
       type: Object
+    },
+    allowAdd: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -118,10 +138,17 @@ export default {
     commit (item) {
       this.$emit('commit', item)
     },
-    insert: async function () {
-      await this.$emit('commit', this.newItem)
-      this.dialogOpen = false
-      this.$refs.form.reset()
+    insert: function () {
+      if (this.$refs.form.validate()) {
+        if (this.entity && this.attrKey) {
+          this.entity[this.attrKey].push(_.cloneDeep(this.newItem))
+          this.$emit('commit', this.entity)
+        } else {
+          this.$emit('commit', this.newItem)
+        }
+        this.dialogOpen = false
+        this.$refs.form.reset()
+      }
     }
   },
   computed: {
