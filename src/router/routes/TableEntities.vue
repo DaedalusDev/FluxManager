@@ -89,44 +89,20 @@ export default {
             }
           }
         }
-      },
-      items: []
+      }
     }
   },
-  created () {
-    this.generateItems()
-  },
   methods: {
-    generateItems () {
-      const items = Object.values(this.entities).map((e) => _.cloneDeep(e))
-      this.items = items
-    },
     ...storeEntities.mapActions({
       commit: typesEntities.ENTITIES_UPDATE_ENTITY
     })
   },
-  watch: {
-    entities () {
-      this.generateItems()
-    }
-  },
   computed: {
     ...storeManager.mapState({
-      entities: 'entities',
-      entitiesLink: 'links'
+      entities: 'entities'
     }),
-    headers () {
-      const headers = []
-      for (let key in this.CONST.dataStructure.entity) {
-        if (this.headersAttr[key]) {
-          let et = this.CONST.dataStructure.entity[key]
-          headers.push({
-            text: et.label,
-            value: key
-          })
-        }
-      }
-      return headers
+    items () {
+      return Object.values(this.entities).map((e) => _.cloneDeep(e))
     }
   }
 }

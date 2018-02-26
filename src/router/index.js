@@ -3,7 +3,8 @@ import Router from 'vue-router'
 
 import Home from '@/router/routes/Home'
 import Mapping from '@/router/routes/Mapping'
-import Table from '@/router/routes/Table'
+import TableEntities from '@/router/routes/TableEntities'
+import TableLinksType from '@/router/routes/TableLinksType'
 
 import PageNotFound from '@/router/routes/PageNotFound'
 
@@ -17,10 +18,16 @@ const routes = [
     icon: 'bubble_chart'
   },
   {
-    path: '/table',
+    path: '/table/entities',
     name: 'Table des entités',
-    component: Table,
+    component: TableEntities,
     icon: 'list'
+  },
+  {
+    path: '/table/links_type',
+    name: 'Table des types de liens',
+    component: TableLinksType,
+    icon: 'format_list_numbered'
   }
 ]
 
