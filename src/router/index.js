@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '@/router/routes/Home'
-import Mapping from '@/router/routes/Mapping'
-import TableEntities from '@/router/routes/TableEntities'
-import TableLinksType from '@/router/routes/TableLinksType'
+import Home from './routes/Home'
+import Mapping from './routes/Mapping'
+import TableEntities from './routes/TableEntities'
+import TableLinksType from './routes/TableLinksType'
 
-import PageNotFound from '@/router/routes/PageNotFound'
+import PageNotFound from './routes/PageNotFound'
 
 Vue.use(Router)
 

@@ -14,5 +14,12 @@ export default {
     rules: [
       rules.required
     ]
+  },
+  linkedEntities: {
+    type: Array,
+    label: 'Entités liées',
+    _source: 'manager',
+    _target: 'links',
+    _inversedBy: 'linksType'
   }
 }

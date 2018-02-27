@@ -25,11 +25,13 @@ export default {
         title: 'Liens',
         headersAttr: {
           id: {
-            align: 'left'
+            align: 'left',
+            editable: false
           },
           nom: {
             align: 'left'
-          }
+          },
+          linkedEntities: {}
         },
         entityType: 'linkType'
       }
