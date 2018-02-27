@@ -115,6 +115,10 @@ export default {
     entity: {
       type: Object
     },
+    entityType: {
+      type: String,
+      default: 'entity'
+    },
     headersAttr: {
       type: Object,
       required: true
@@ -153,7 +157,7 @@ export default {
   },
   computed: {
     format () {
-      return this.attrKey ? this.CONST.dataStructure.entity[this.attrKey]._format : this.CONST.dataStructure.entity
+      return this.attrKey ? this.CONST.dataStructure[this.entityType][this.attrKey]._format : this.CONST.dataStructure[this.entityType]
     },
     headers () {
       const headers = []
