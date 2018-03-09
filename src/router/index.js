@@ -5,6 +5,7 @@ import Home from './routes/Home'
 import Mapping from './routes/Mapping'
 import TableEntities from './routes/TableEntities'
 import TableLinksType from './routes/TableLinksType'
+import Trapp from './routes/Trapp'
 
 import PageNotFound from './routes/PageNotFound'
 
@@ -27,6 +28,12 @@ const routes = [
     path: '/table/links_type',
     name: 'Table des types de liens',
     component: TableLinksType,
+    icon: 'format_list_numbered'
+  },
+  {
+    path: '/trapp',
+    name: 'Mapping TRAPP',
+    component: Trapp,
     icon: 'format_list_numbered'
   }
 ]
