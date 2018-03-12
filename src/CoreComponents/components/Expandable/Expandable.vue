@@ -1,7 +1,7 @@
 <template>
     <v-expansion-panel expand>
         <v-expansion-panel-content lazy ripple @input="setIsOpen" :value="isOpen">
-            <div slot="header" :style="{opacity: value.matchFilter ? 1 : 0.25}">{{ value.name }}</div>
+            <div slot="header" class="expandableHeader" :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">{{ value.name }} {{ institutions}}</div>
             <v-card>
                 <v-card-text class="grey lighten-3">
                     <span v-if="elementAttr" v-for="(attr, k) in elementAttr">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-const EXCLUDE = ['childNodes', 'nodeType', 'name', 'isOpen', 'parent', 'childMatch']
+const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFilter', 'childMatch', 'vInstance', 'institutions']
 export default {
   name: 'expandable',
   props: {
@@ -40,10 +40,31 @@ export default {
       type: Object
     }
   },
+  data () {
+    return {
+      hasFocus: false
+    }
+  },
   methods: {
     setIsOpen (v) {
       this.value.isOpen = v
+    },
+    highlight () {
+      window.scrollBy({
+        top: this.$el.getBoundingClientRect().top - 150,
+        behavior: 'smooth'
+      })
+      this.hasFocus = true
+      setTimeout(() => { this.hasFocus = false }, 400)
     }
+  },
+  watch: {
+    value (v) {
+      v.vInstance = this
+    }
+  },
+  mounted () {
+    this.value.vInstance = this
   },
   computed: {
     isOpen () {
@@ -65,6 +86,9 @@ export default {
       }
       if (Object.keys(attr).length === 0) return false
       return attr
+    },
+    institutions () {
+      return Object.keys(this.value.institutions).join(',')
     }
     // elementSubStructure () {
     //   const {value, mapping} = this
@@ -84,3 +108,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+    .expandableHeader {
+        transition: all 400ms;
+    }
+</style>
