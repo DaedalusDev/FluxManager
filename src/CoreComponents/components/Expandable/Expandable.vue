@@ -1,6 +1,6 @@
 <template>
     <v-expansion-panel expand>
-        <v-expansion-panel-content lazy ripple @input="setIsOpen" :value="isOpen">
+        <v-expansion-panel-content lazy @input="setIsOpen" :value="isOpen">
             <div slot="header" class="expandableHeader" :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">{{ value.name }} {{ institutions}}</div>
             <v-card>
                 <v-card-text class="grey lighten-3">
@@ -17,9 +17,8 @@
                     <expandable
                         v-if="value.childNodes !== undefined"
                         v-for="(childNode, k) in value.childNodes"
-                        :mapping="mapping"
                         v-model="value.childNodes[k]"
-                        :key="_uid + '-' + childNode.name"
+                        :key="childNode.path"
                     />
                 </v-card-text>
             </v-card>
@@ -32,10 +31,6 @@ const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFi
 export default {
   name: 'expandable',
   props: {
-    mapping: {
-      type: Object,
-      required: true
-    },
     value: {
       type: Object
     }

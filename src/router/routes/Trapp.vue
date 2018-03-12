@@ -2,7 +2,6 @@
   <v-container grid-list-md>
     <v-layout row wrap>
       <expandable
-          :mapping="currentMapping"
           v-model="currentMapping.PROCEDURE"
       />
 
@@ -11,7 +10,7 @@
           <v-layout row wrap>
             <v-flex>
               <v-form ref="form">
-                Résultats : {{ iTargetedElement }} / {{ aResults.length }}
+                Résultats : {{ (iTargetedElement + 1) }} / {{ aResults.length }}
                   <v-select
                           :items="availableMapping"
                           v-model="selectedMapping"
@@ -87,13 +86,13 @@ export default {
       searchInProgress: false,
       iTargetedElement: 0,
       availableMapping: Object.keys(mapping),
-      selectedMapping: 'xsd'
+      selectedMapping: 'merge'
     }
   },
   methods: {
     debouncedFilter: _.debounce(function () {
       this.applyFilter()
-    }, 400),
+    }, 500),
     applyFilter () {
       const rPattern = this.term ? new RegExp(this.term, 'i') : false
       this.currentNodes.forEach(function (n) {
@@ -105,6 +104,7 @@ export default {
           if (bMatch) {
             let p = n.parent
             while (p) {
+              if (p.childMatch) break // cas ou le parent aurait déjà des enfants qui matchent
               p.childMatch = bMatch
               p = p.parent
             }
@@ -123,7 +123,7 @@ export default {
         if (this.iTargetedElement < 0) {
           this.iTargetedElement = this.aResults.length - 1
         }
-        if (this.iTargetedElement > this.aResults.length) {
+        if (this.iTargetedElement >= this.aResults.length) {
           this.iTargetedElement = 0
         }
         const vInstance = _.get(this.aResults[this.iTargetedElement], 'vInstance')
