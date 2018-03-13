@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <expandable
           v-model="currentMapping.PROCEDURE"
+          :nbMapping="nbMapping"
       />
 
       <v-slide-x-reverse-transition mode="in-out">
@@ -11,60 +12,60 @@
             <v-flex>
               <v-form ref="form">
                 Résultats : {{ (iTargetedElement + 1) }} / {{ aResults.length }}
-                  <v-select
-                          :items="availableMapping"
-                          v-model="selectedMapping"
-                          label="Fichier de mapping"
-                  />
-                  <v-text-field
-                      label="Recherche"
-                      v-model="term"
-                      :loading="searchInProgress"
-                  />
+                <v-select
+                    :items="availableMapping"
+                    v-model="selectedMapping"
+                    label="Fichier de mapping"
+                />
+                <v-text-field
+                    label="Recherche"
+                    v-model="term"
+                    :loading="searchInProgress"
+                />
               </v-form>
             </v-flex>
           </v-layout>
         </v-container>
       </v-slide-x-reverse-transition>
-        <v-speed-dial
-                v-model="showFilter"
-                bottom
-                right
-                fixed
+      <v-speed-dial
+          v-model="showFilter"
+          bottom
+          right
+          fixed
+      >
+        <v-btn
+            slot="activator"
+            color="blue darken-2"
+            dark
+            fab
+            hover
+            v-model="showFilter"
         >
-            <v-btn
-                    slot="activator"
-                    color="blue darken-2"
-                    dark
-                    fab
-                    hover
-                    v-model="showFilter"
-            >
-                <v-icon>filter_list</v-icon>
-                <v-icon>close</v-icon>
-            </v-btn>
+          <v-icon>filter_list</v-icon>
+          <v-icon>close</v-icon>
+        </v-btn>
 
-            <v-btn
-                    fab
-                    dark
-                    small
-                    color="red"
-                    @click.stop="scrollTo(1)"
-                    :disabled="aResults === 0 || aResults.length === currentNodes.length"
-            >
-                <v-icon>keyboard_arrow_down</v-icon>
-            </v-btn>
-            <v-btn
-                    fab
-                    dark
-                    small
-                    color="red"
-                    @click.stop="scrollTo(-1)"
-                    :disabled="aResults === 0 || aResults.length === currentNodes.length"
-            >
-                <v-icon>keyboard_arrow_up</v-icon>
-            </v-btn>
-        </v-speed-dial>
+        <v-btn
+            fab
+            dark
+            small
+            color="red"
+            @click.stop="scrollTo(1)"
+            :disabled="aResults === 0 || aResults.length === currentNodes.length"
+        >
+          <v-icon>keyboard_arrow_down</v-icon>
+        </v-btn>
+        <v-btn
+            fab
+            dark
+            small
+            color="red"
+            @click.stop="scrollTo(-1)"
+            :disabled="aResults === 0 || aResults.length === currentNodes.length"
+        >
+          <v-icon>keyboard_arrow_up</v-icon>
+        </v-btn>
+      </v-speed-dial>
     </v-layout>
   </v-container>
 </template>
@@ -150,6 +151,9 @@ export default {
     },
     currentNodes () {
       return this.oNodes[this.selectedMapping]
+    },
+    nbMapping () {
+      return this.selectedMapping === 'merge' ? Object.keys(mappingTrapp).length : 1
     }
   }
 }
@@ -188,7 +192,7 @@ const mapNode = (o, k) => {
     o.isOpen = false
     o.childMatch = false
     o.matchFilter = true
-    o.institutions = {[k]: true}
+    o.mappings = {[k]: true}
     // Traitement des nodes
     if (o.nodeName === 'xs:element' && mappingTrapp[k][o.type]) { // Cas du XSD
       o.childNodes = mappingTrapp[k][o.type]['childNodes'] || false
@@ -232,6 +236,6 @@ const indexNode = (o) => {
     padding: 24px 16px;
     max-height: 75vh;
     overflow: auto;
-    z-index:4;
+    z-index: 4;
   }
 </style>
