@@ -14,8 +14,7 @@
                   <v-select
                           :items="availableMapping"
                           v-model="selectedMapping"
-                          label="Select"
-                          single-line
+                          label="Fichier de mapping"
                   />
                   <v-text-field
                       label="Recherche"
