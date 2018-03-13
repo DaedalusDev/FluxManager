@@ -1,48 +1,39 @@
 <template>
-  <v-flex class="expandable">
-    <!--<div v-if="parentLine!==''" :class="'expandable-horizontal-line '+ parentLine"></div>-->
-    <v-expansion-panel expand>
-      <v-expansion-panel-content :class="classes" lazy @input="setIsOpen" :value="isOpen">
-        <div slot="header" class="expandable-header"
-             :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">
-          <!--<div :class="'expandable-vertical-line '+ parentLine"></div>-->
-          <!--<div :class="'expandable-dot ' + line"></div>-->
-          <!--<div :class="'expandable-horizontal-line '+ line"></div>-->
-          {{ value.name }} {{mappings}}
-        </div>
-        <v-card>
-          <v-card-text class="grey lighten-3 expandable-content" style="padding-left: 2rem;">
-            <div class="nodeDescription">
-              <!--<div :class="'expandable-horizontal-line '+ line"></div>-->
+  <v-expansion-panel expand>
+    <v-expansion-panel-content :class="classes" lazy @input="setIsOpen" :value="isOpen">
+      <div slot="header" class="expandable-header"
+           :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">
+        {{ value.name }} {{mappings}}
+      </div>
+      <v-card>
+        <v-card-text class="grey lighten-3 expandable-content" style="padding-left: 2rem;">
+          <div class="nodeDescription">
               <span v-if="elementAttr" v-for="(attr, k) in elementAttr">
               <strong>{{k}}</strong> : {{attr}}
             </span>
-            </div>
-            <!--<expandable-->
-            <!--v-if="elementSubStructure"-->
-            <!--v-for="(childNode, k) in elementSubStructure"-->
-            <!--:mapping="mapping"-->
-            <!--v-model="elementSubStructure[k]"-->
-            <!--:key="_uid + '-' + childNode.name"-->
-            <!--/>-->
-            <expandable
-                v-if="value.childNodes !== undefined"
-                v-for="(childNode, k) in value.childNodes"
-                v-model="value.childNodes[k]"
-                :key="childNode.path"
-                :nbMapping="nbMapping"
-                :parentLine="line"
-            />
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-flex>
+          </div>
+          <!--<expandable-->
+          <!--v-if="elementSubStructure"-->
+          <!--v-for="(childNode, k) in elementSubStructure"-->
+          <!--:mapping="mapping"-->
+          <!--v-model="elementSubStructure[k]"-->
+          <!--:key="_uid + '-' + childNode.name"-->
+          <!--/>-->
+          <expandable
+              v-if="value.childNodes !== undefined"
+              v-for="(childNode, k) in value.childNodes"
+              v-model="value.childNodes[k]"
+              :key="childNode.path"
+              :nbMapping="nbMapping"
+          />
+        </v-card-text>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 
 <script>
 const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFilter', 'childMatch', 'vInstance', 'mappings']
-const COLORS = ['red', 'blue', 'green', 'purple', 'yellow', 'lime', 'indigo', 'pink']
 export default {
   name: 'expandable',
   props: {
@@ -52,15 +43,10 @@ export default {
     nbMapping: {
       type: Number,
       default: 1
-    },
-    parentLine: {
-      type: String,
-      default: ''
     }
   },
   data () {
     return {
-      line: COLORS[Math.floor(Math.random() * COLORS.length)],
       hasFocus: false
     }
   },
@@ -145,62 +131,7 @@ export default {
 </script>
 
 <style scoped>
-  .expandable {
-    position: relative;
-  }
-
-  .container.grid-list-md .layout .flex.expandable {
-    padding: 0;
-  }
-
-  .expandable-dot {
-    position: absolute;
-    top: calc(50% - 0.5rem);
-    left: 0.5rem;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 1rem;
-  }
-
-  .expandable-horizontal-line {
-    position: absolute;
-    left: -1.25rem;
-    top: 0;
-    bottom: 0;
-    width: 0.5rem;
-  }
-
-  .expandable-vertical-line {
-    position: absolute;
-    left: -1.25rem;
-    top: 1.5rem;
-    width: 2.5rem;
-    height: 0.5rem;
-  }
-
-  .expandable:last-of-type > .expandable-horizontal-line {
-    bottom: auto;
-    height: 1.5rem;
-  }
-
   .expandable-header {
     transition: all 400ms;
   }
-
-  .expandable-header .expandable-horizontal-line {
-    left: 0.75rem;
-  }
-
-  .expandable .expandable-header .expandable-horizontal-line {
-    top: 1.5rem;
-  }
-
-  .nodeDescription {
-    position: relative;
-  }
-
-  .nodeDescription > .expandable-horizontal-line {
-    top: -16px;
-  }
-
 </style>
