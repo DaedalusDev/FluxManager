@@ -1,7 +1,7 @@
 <template>
-    <v-expansion-panel expand>
+    <v-expansion-panel expand class="expandable" :class="classes">
         <v-expansion-panel-content lazy @input="setIsOpen" :value="isOpen">
-            <div slot="header" class="expandableHeader" :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">{{ value.name }} {{ institutions}}</div>
+            <div slot="header" class="expandable-header" :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">{{ value.name }} {{ mappings }}</div>
             <v-card>
                 <v-card-text class="grey lighten-3">
                     <span v-if="elementAttr" v-for="(attr, k) in elementAttr">
@@ -19,6 +19,7 @@
                         v-for="(childNode, k) in value.childNodes"
                         v-model="value.childNodes[k]"
                         :key="childNode.path"
+                        :nbMapping="nbMapping"
                     />
                 </v-card-text>
             </v-card>
@@ -27,12 +28,16 @@
 </template>
 
 <script>
-const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFilter', 'childMatch', 'vInstance', 'institutions']
+const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFilter', 'childMatch', 'vInstance', 'mappings']
 export default {
   name: 'expandable',
   props: {
     value: {
       type: Object
+    },
+    nbMapping: {
+      type: Number,
+      default: 1
     }
   },
   data () {
@@ -82,8 +87,26 @@ export default {
       if (Object.keys(attr).length === 0) return false
       return attr
     },
-    institutions () {
-      return Object.keys(this.value.institutions).join(',')
+    mappings () {
+      return Object.keys(this.value.mappings).join(',')
+    },
+    classes () {
+      const {nbMapping} = this
+      const aClasses = []
+      if (nbMapping !== 1) {
+        aClasses.push('lighten-3')
+        const count = Object.keys(this.value.mappings).length
+        if (count === nbMapping) {
+          aClasses.push('green')
+        } else if (count === 1) {
+          aClasses.push('red')
+        } else {
+          aClasses.push('orange')
+        }
+      } else {
+        aClasses.push('white')
+      }
+      return aClasses
     }
     // elementSubStructure () {
     //   const {value, mapping} = this
@@ -105,7 +128,10 @@ export default {
 </script>
 
 <style scoped>
-    .expandableHeader {
+    .expandable li.expansion-panel__container{
+        background: none;
+    }
+    .expandable-header {
         transition: all 400ms;
     }
 </style>

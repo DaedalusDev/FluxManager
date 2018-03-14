@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <expandable
           v-model="currentMapping.PROCEDURE"
+          :nbMapping="nbMapping"
       />
 
       <v-slide-x-reverse-transition mode="in-out">
@@ -150,15 +151,22 @@ export default {
     },
     currentNodes () {
       return this.oNodes[this.selectedMapping]
+    },
+    nbMapping () {
+      return this.selectedMapping === 'merge' ? Object.keys(mappingTrapp).length : 1
     }
   }
 }
 const allMapping = () => {
   const oMapping = {}
   const aMapping = [{}]
-  for (let k in mappingTrapp) {
+  // Initialisation du XSD
+  oNodes['xsd'] = []
+  oMapping['xsd'] = constructionMapping({PROCEDURE: mappingTrapp['xsd']['PROCEDURE']}, 'xsd')
+  aMapping.push(oMapping['xsd'])
+  for (let k in mappingTrapp['origine']) {
     oNodes[k] = []
-    oMapping[k] = constructionMapping({PROCEDURE: mappingTrapp[k]['PROCEDURE']}, k)
+    oMapping[k] = constructionMapping({PROCEDURE: mappingTrapp['origine'][k]['PROCEDURE']}, k)
     aMapping.push(oMapping[k])
   }
   oMapping['merge'] = _.merge.apply(null, aMapping)
@@ -166,7 +174,7 @@ const allMapping = () => {
   return oMapping
 }
 
-const constructionMapping = (o, k, p) => {
+const constructionMapping = (o, k, p, r) => {
   if (_.isObject(o)) {
     _.mapValues(o, (n) => {
       if (p) {
@@ -175,7 +183,7 @@ const constructionMapping = (o, k, p) => {
       } else {
         n.path = n.name
       }
-      return mapNode(n, k)
+      return mapNode(n, k, r)
     })
   }
   return o
@@ -188,12 +196,12 @@ const mapNode = (o, k) => {
     o.isOpen = false
     o.childMatch = false
     o.matchFilter = true
-    o.institutions = {[k]: true}
+    o.mappings = {[k]: true}
     // Traitement des nodes
     if (o.nodeName === 'xs:element' && mappingTrapp[k][o.type]) { // Cas du XSD
       o.childNodes = mappingTrapp[k][o.type]['childNodes'] || false
-    } else if (o.nodeName === 'xsl:call-template' && mappingTrapp[k][o.name] && o.parent.name !== o.name) { // Cas du XSL
-      o.childNodes = mappingTrapp[k][o.name]['childNodes'] || false
+    } else if (o.nodeName === 'xsl:call-template' && mappingTrapp['origine'][k][o.name] && o.parent.name !== o.name) { // Cas du XSL
+      o.childNodes = mappingTrapp['origine'][k][o.name]['childNodes'] || false
     } else if (o.nodeName !== 'xs:element' && o.type && o.type.substr(0, 3) !== 'xs:') {
       o.error = 'Type inconnu'
     }
