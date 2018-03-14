@@ -153,7 +153,7 @@ export default {
       return this.oNodes[this.selectedMapping]
     },
     nbMapping () {
-      return this.selectedMapping === 'merge' ? Object.keys(mappingTrapp).length : 1
+      return this.selectedMapping === 'merge' ? Object.keys(this.mapping).length - 1 : 1
     }
   }
 }
@@ -164,11 +164,13 @@ const allMapping = () => {
   oNodes['xsd'] = []
   oMapping['xsd'] = constructionMapping({PROCEDURE: mappingTrapp['xsd']['PROCEDURE']}, 'xsd')
   aMapping.push(oMapping['xsd'])
+  // Initialisation des mappings Application > Systeme
   for (let k in mappingTrapp['origine']) {
     oNodes[k] = []
     oMapping[k] = constructionMapping({PROCEDURE: mappingTrapp['origine'][k]['PROCEDURE']}, k)
     aMapping.push(oMapping[k])
   }
+  // Création d'un mapping représentant le merge de tous les mappings
   oMapping['merge'] = _.merge.apply(null, aMapping)
   oNodes['merge'] = indexNode(oMapping['merge'])
   return oMapping
