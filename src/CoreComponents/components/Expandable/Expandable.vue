@@ -74,20 +74,6 @@ export default {
     this.value.vInstance = this
   },
   computed: {
-    classes () {
-      if (this.nbMapping === 1) {
-        return ''
-      }
-      const count = Object.keys(this.value.mappings).length
-      let classe = 'orange'
-      if (count === 1) {
-        classe = 'red'
-      }
-      if (count === this.nbMapping) {
-        classe = 'green'
-      }
-      return classe + ' lighten-3'
-    },
     isOpen () {
       return this.value.isOpen || this.value.childMatch
     },
@@ -110,6 +96,24 @@ export default {
     },
     mappings () {
       return Object.keys(this.value.mappings).join(',')
+    },
+    classes () {
+      const {nbMapping} = this
+      const aClasses = []
+      if (nbMapping !== 1) {
+        aClasses.push('lighten-3')
+        const count = Object.keys(this.value.mappings).length
+        if (count === nbMapping) {
+          aClasses.push('green')
+        } else if (count === 1) {
+          aClasses.push('red')
+        } else {
+          aClasses.push('orange')
+        }
+      } else {
+        aClasses.push('white')
+      }
+      return aClasses
     }
     // elementSubStructure () {
     //   const {value, mapping} = this
@@ -131,7 +135,7 @@ export default {
 </script>
 
 <style scoped>
-  .expandable-header {
-    transition: all 400ms;
-  }
+    .expandable-header {
+        transition: all 400ms;
+    }
 </style>
