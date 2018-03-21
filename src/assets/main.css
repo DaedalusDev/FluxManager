@@ -1,0 +1,5 @@
+.trapp-progress .progress-circular__overlay {
+    -webkit-transition: initial;
+    transition: initial;
+    opacity: 1;
+}

@@ -9,6 +9,7 @@ import 'vue-d3-network/dist/vue-d3-network.css'
 import store from './store'
 import ApplicationConst from './data/const'
 import CoreComponents from './CoreComponents'
+import './assets/main.css'
 
 Vue.use(CoreComponents)
 

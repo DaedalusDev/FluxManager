@@ -3,15 +3,27 @@
     <v-expansion-panel-content :class="classes" lazy @input="setIsOpen" :value="isOpen">
       <div slot="header" class="expandable-header"
            :style="{opacity: value.matchFilter ? 1 : 0.25, paddingLeft: hasFocus ? '1.5rem': null}">
-        {{ value.name }} {{mappings}}
+        {{ value.name }} <mappings-info :mappings="mappings" />
       </div>
       <v-card>
         <v-card-text class="grey lighten-3 expandable-content" style="padding-left: 2rem;">
           <div class="nodeDescription">
               <span v-if="elementAttr" v-for="(attr, k) in elementAttr">
-              <strong>{{k}}</strong> : {{attr}}
-            </span>
+                <strong>{{k}}</strong> : {{attr}}
+              </span>
           </div>
+          <v-layout row wrap>
+            <v-flex xs2 v-for="(v, syst) in value.to" :key="syst.name">
+              <v-card class="lighten-2 elevation-2">
+                <v-btn icon class="right">
+                  <v-icon color="green">edit</v-icon>
+                </v-btn>
+                <v-card-text>
+                  {{ syst }}
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
           <!--<expandable-->
           <!--v-if="elementSubStructure"-->
           <!--v-for="(childNode, k) in elementSubStructure"-->
@@ -25,6 +37,7 @@
               v-model="value.childNodes[k]"
               :key="childNode.path"
               :nbMapping="nbMapping"
+              :systCible="systCible"
           />
         </v-card-text>
       </v-card>
@@ -33,9 +46,14 @@
 </template>
 
 <script>
-const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', ' matchFilter', 'childMatch', 'vInstance', 'mappings']
+import MappingsInfo from '../../../components/Trapp/MappingsInfo'
+const EXCLUDE = ['childNodes', 'nodeName', 'name', 'isOpen', 'parent', 'matchFilter', 'childMatch', 'vInstance', 'mapping', 'to']
+
 export default {
   name: 'expandable',
+  components: {
+    MappingsInfo
+  },
   props: {
     value: {
       type: Object
@@ -43,6 +61,9 @@ export default {
     nbMapping: {
       type: Number,
       default: 1
+    },
+    systCible: {
+      type: Array
     }
   },
   data () {
@@ -95,14 +116,14 @@ export default {
       return attr
     },
     mappings () {
-      return Object.keys(this.value.mappings).join(',')
+      return Object.keys(this.value.mapping)
     },
     classes () {
       const {nbMapping} = this
       const aClasses = []
       if (nbMapping !== 1) {
         aClasses.push('lighten-3')
-        const count = Object.keys(this.value.mappings).length
+        const count = Object.keys(this.value.mapping).length
         if (count === nbMapping) {
           aClasses.push('green')
         } else if (count === 1) {
